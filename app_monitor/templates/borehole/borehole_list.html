@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Groundwater Monitoring Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      font-size: 24px; /* Resize the main heading slightly */
+    }
+    h2 {
+      font-size: 16px; /* Resize the subheadings slightly */
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 14px; /* Resize the button text slightly */
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('/borehole_list_data/'); // Fetch data from Django endpoint
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.text();
+        document.getElementById('sensor-data-container').innerHTML = data;
+      } catch (error) {
+        console.error('Fetch data error:', error);
+      }
+    }
+    setInterval(fetchData, 2000); // Fetch data every 2 seconds
+    document.addEventListener('DOMContentLoaded', fetchData);
+  </script>
+</head>
+<body>
+  <h1>Groundwater Monitoring Dashboard</h1>
+  <div id="sensor-data-container">
+    {% for data in sensor_data %}
+      <div>
+        <h2>Sensor ID: {{ data.sensor_id }}</h2>
+        <h2>Borehole: {{ data.borehole.location }}</h2>
+        <h2>Timestamp: {{ data.timestamp }}</h2>
+        <h2>Water Level: {{ data.water_level }}</h2>
+        <h2>Temperature: {{ data.temperature }}</h2>
+        <h2>Pressure: {{ data.pressure }}</h2>
+        <h2>Water Quality: {{ data.water_quality }}</h2>
+        <hr>
+      </div>
+    {% endfor %}
+  </div>
+  <a href="{% url 'borehole_add' %}" class="button">Add Borehole</a>
+</body>
+</html>

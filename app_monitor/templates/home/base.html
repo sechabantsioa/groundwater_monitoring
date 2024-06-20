@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body { text-align: center;}
+        .div_center { display:inline-block; border: 1px solid;}
+        ul, li, table { text-align: left; }
+        ul { padding-left:20px; }
+        h2 { padding:0px 10px 0px 10px}
+    </style>
+
+    <!--In the templates, surround the content also with <script></script> tags in the 
+        templates. If we put the tags here, we would lose the JavaScript intellisense in 
+        the templates. -->
+    {% block scripts %}
+    {% endblock scripts %}
+
+</head>
+
+<body>
+    <div class="div_center">
+       {% block content %}
+       {% endblock content %}
+
+               <!-- Messages -->    
+               <div style="text-align: left;">
+                  {% if messages %}
+                     <h3>Messages</h3>
+                     {% for message in messages %}
+                        {{ message }}
+                        </br>
+                     {% endfor %}
+                   {% endif %}
+                </div>
+    </div>
+</body>
+</html>

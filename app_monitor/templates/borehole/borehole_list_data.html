@@ -1,0 +1,12 @@
+{% for data in sensor_data %}
+  <div>
+    <h2>Sensor ID: {{ data.sensor_id }}</h2>
+    <h2>Borehole: {{ data.borehole.location }}</h2>
+    <h2>Timestamp: {{ data.timestamp }}</h2>
+    <h2>Water Level: {{ data.water_level }}</h2>
+    <h2>Temperature: {{ data.temperature }}</h2>
+    <h2>Pressure: {{ data.pressure }}</h2>
+    <h2>Water Quality: {{ data.water_quality }}</h2>
+    <hr>
+  </div>
+{% endfor %}

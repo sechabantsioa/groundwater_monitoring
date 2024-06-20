@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Groundwater Monitoring Dashboard</title>
+  <style>
+    .button-link {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      font-size: 1.2em;
+      color: white;
+      background-color: #007BFF;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-link:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('/data/'); // Fetch data from Django endpoint
+        if (!response.ok) {
+          throw new Error('Error, try again');
+        }
+        const data = await response.json();
+        document.getElementById('sensor_id').innerText = data.sensor_id || 'N/A';
+        document.getElementById('borehole').innerText = data.borehole || 'N/A';
+        document.getElementById('timestamp').innerText = data.timestamp || 'N/A';
+        document.getElementById('water_level').innerText = data.water_level || 'N/A';
+        document.getElementById('temperature').innerText = data.temperature || 'N/A';
+        document.getElementById('pressure').innerText = data.pressure || 'N/A';
+        document.getElementById('water_quality').innerText = data.water_quality || 'N/A';
+      } catch (error) {
+        console.error('Fetch data error:', error);
+      }
+    }
+    setInterval(fetchData, 2000);
+  </script>
+</head>
+<body onload="fetchData()">
+  <h1>Groundwater Monitoring Dashboard</h1>
+  <div>
+    <h2>Sensor ID: <span id="sensor_id"></span></h2>
+    <h2>Borehole: <span id="borehole"></span></h2>
+    <h2>Timestamp: <span id="timestamp"></span></h2>
+    <h2>Water Level: <span id="water_level"></span></h2>
+    <h2>Temperature: <span id="temperature"></span></h2>
+    <h2>Pressure: <span id="pressure"></span></h2>
+    <h2>Water Quality: <span id="water_quality"></span></h2>
+  </div>
+  <a href="{% url 'borehole_add' %}" class="button-link">Add Borehole</a>
+  <a href="{% url 'borehole_list' %}" class="button-link">List of Borehole(s)</a> 
+</body>
+</html>
